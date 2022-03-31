@@ -40,6 +40,9 @@ class Lane(ABC):
     #     pass
     # TODO: Highway class' method?
     
+    @abstractmethod
+    def can_generate_vehicle(self, safe_follow: int) -> bool:
+        pass
 
     @abstractmethod
     def safe_distance_within(self, lane, index, k):

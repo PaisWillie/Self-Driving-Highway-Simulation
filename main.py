@@ -12,7 +12,7 @@
 
 # TODO: Self-driven vehicle class
 from Simulation.simulation import Simulation
-import load_config
+import Config.load_config as load_config
 
 if __name__ == '__main__':
     load_config.init()
@@ -25,5 +25,7 @@ if __name__ == '__main__':
                             config['simulation']['time-steps'],
                             config['highway']['entry-points'],
                             config['simulation']['chance-gen-self-driven-vehicle'],
-                            config['simulation']['chance-gen-human-driven-vehicle'])
+                            config['simulation']['chance-gen-human-driven-vehicle'],
+                            config['vehicle']['self-driven']['safe-follow'],
+                            config['vehicle']['human-driven']['safe-follow'])
     simulation.run()

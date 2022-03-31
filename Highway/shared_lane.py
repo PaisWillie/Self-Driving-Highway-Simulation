@@ -1,10 +1,13 @@
 from Highway.lane import Lane
-import load_config
+
 
 class SharedLane(Lane):
 
     def __init__(self, length, speed_limit) -> None:
         super().__init__(length, speed_limit)
+
+    def can_generate_vehicle(self, safe_follow: int) -> bool:
+        pass
 
     def safe_distance_within(self, lane, index, k):
         pass

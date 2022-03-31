@@ -1,10 +1,13 @@
-import load_config
 from Highway.lane import Lane
+
 
 class SelfDrivingLane(Lane):
 
     def __init__(self, length, speed_limit) -> None:
         super().__init__(length, speed_limit)
+
+    def can_generate_vehicle(self) -> bool:
+        pass
 
     def safe_distance_within(self, lane, index, k):
         pass

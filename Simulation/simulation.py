@@ -5,6 +5,7 @@ from typing import List
 from Highway.highway import Highway
 from Highway.self_driving_lane import SelfDrivingLane
 from Highway.shared_lane import SharedLane
+from Vehicles.human_driven_vehicle import HumanDrivenVehicle
 from Vehicles.self_driven_vehicle import SelfDrivenVehicle
 
 
@@ -18,6 +19,12 @@ class Simulation:
     chance_gen_human_driven_vehicle: int
     # TODO: Maybe have chance for self-driven vehicle on shared lane?
 
+    self_driven_vehicle_safe_follow_distance: int
+    human_driven_vehicle_safe_follow_distance: int
+
+    self_driven_vehicle_acceleration: int
+    human_driven_vehicle_acceleration: int
+
     def __init__(self, length: int,
                  num_self_driving_lanes: int,
                  num_shared_lanes: int,
@@ -26,7 +33,11 @@ class Simulation:
                  time_steps: int,
                  entry_points: List[int],
                  chance_gen_self_driven_vehicle: int,
-                 chance_gen_human_driven_vehicle: int
+                 chance_gen_human_driven_vehicle: int,
+                 self_driven_vehicle_safe_follow_distance: int,
+                 human_driven_vehicle_safe_follow_distance: int,
+                 self_driven_vehicle_acceleration: int,
+                 human_driven_vehicle_acceleration: int
                  ) -> None:
         self.highway = Highway(length,
                                num_self_driving_lanes,
@@ -39,6 +50,12 @@ class Simulation:
 
         self.chance_gen_self_driven_vehicle = chance_gen_self_driven_vehicle
         self.chance_gen_human_driven_vehicle = chance_gen_human_driven_vehicle
+
+        self.self_driven_vehicle_safe_follow_distance = self_driven_vehicle_safe_follow_distance
+        self.human_driven_vehicle_safe_follow_distance = human_driven_vehicle_safe_follow_distance
+
+        self.self_driven_vehicle_acceleration = self_driven_vehicle_acceleration
+        self.human_driven_vehicle_acceleration = human_driven_vehicle_acceleration
 
     def run(self) -> None:
         while self.current_step < self.time_steps:
@@ -66,12 +83,21 @@ class Simulation:
         for lane in self.highway.lanes:
             if type(lane) is SelfDrivingLane and random_chance < self.chance_gen_self_driven_vehicle:
                 # TODO: Only generate vehicle at speed_limit if safe follow distance is statisfied
-                lane.set_vehicle(0, SelfDrivenVehicle(lane.speed_limit)) # TODO: Change speed_limit
+                lane.set_vehicle(0,
+                                 SelfDrivenVehicle(lane.speed_limit,
+                                                   self.self_driven_vehicle_safe_follow_distance,
+                                                   self.self_driven_vehicle_acceleration))
             elif type(lane) is SharedLane:
-                if random_chance < self.chance_gen_human_driven_vehicle:
-                    pass
                 if random_chance < self.chance_gen_self_driven_vehicle:
-                    pass
+                    lane.set_vehicle(0,
+                                     SelfDrivenVehicle(lane.speed_limit,
+                                                       self.self_driven_vehicle_safe_follow_distance,
+                                                       self.self_driven_vehicle_acceleration))
+                    if random_chance < self.chance_gen_human_driven_vehicle:
+                        lane.set_vehicle(0,
+                                     HumanDrivenVehicle(lane.speed_limit,
+                                                       self.human_driven_vehicle_safe_follow_distance,
+                                                       self.human_driven_vehicle_acceleration))
 
     # def average_time(self):
     #     pass
