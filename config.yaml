@@ -1,0 +1,26 @@
+simulation:
+  time-steps: 10
+  chance-gen-self-driven-vehicle: 0.1
+  chance-gen-human-driven-vehicle: 0.2
+vehicle:
+  self-driven:
+    acceleration: 0
+    initial-speed: 0
+    safe_follow: 0
+    acceleration: 0
+  human-driven:
+    acceleration: 0
+    initial-speed: 0
+    safe_follow: 0
+    acceleration: 0
+highway:
+  self-driving-lane:
+    count: 1
+    speed-limit: 0
+  shared-lane:
+    count: 4
+    speed-limit: 0
+  entry-points:
+  - 24
+  - 74
+  length: 100

@@ -5,7 +5,7 @@ from Vehicles.vehicle import Vehicle
 
 class Lane(ABC):
 
-    road: List[int] 
+    road: List[Vehicle] 
     length: int
     speed_limit: int
 
@@ -14,23 +14,32 @@ class Lane(ABC):
         self.length = length
         self.speed_limit = speed_limit
         for _ in range(length):
-            self.road[0].append(None)
+            self.road.append(None)
 
-    @abstractmethod
-    def can_move_forward(self, vehicle: Vehicle) -> bool:
-        pass
+    def drive_all_vehicles(self) -> None:
+        for position in range(0, self.length):
+            self.road[position].drive(self)
 
-    @abstractmethod
-    def can_lane_change(self, position: int) -> bool:
-        pass
+    def get_vehicle_position(self, vehicle: Vehicle) -> int:
+        for position in range(0, self.length):
+            if self.road[position] == vehicle:
+                return position
 
-    @abstractmethod
-    def get(self, lane, index) -> int:
-        pass
+    def get_vehicle(self, index) -> Vehicle:
+        return self.road[index]
 
-    @abstractmethod
-    def set(self, lane, index, value):
-        pass
+    def set_vehicle(self, index, vehicle: Vehicle) -> None:
+        self.road[index] = vehicle
+
+    def move_vehicle(self, vehicle: Vehicle, new_position: int) -> None:
+        self.set_vehicle(self.get_vehicle_position(vehicle), None)
+        self.set_vehicle(new_position, vehicle)
+
+    # @abstractmethod
+    # def can_lane_change(self, position: int, new_lane) -> bool:
+    #     pass
+    # TODO: Highway class' method?
+    
 
     @abstractmethod
     def safe_distance_within(self, lane, index, k):

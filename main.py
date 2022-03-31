@@ -1,4 +1,4 @@
-## TODO List
+# TODO List
 # - Car speed & accerleration
 # - Lane change only into accessible lanes
 # - Abstract vehicle class
@@ -11,60 +11,19 @@
 # - Intention to merge off of self-driving lane if current lane converted
 
 # TODO: Self-driven vehicle class
-class SelfDrivingVehicle:
-    
-    def __init__(self, name, speed):
-        self.name = name
-        self.speed = speed
-
-    def drive(self):
-        print(f"{self.name} is driving at {self.speed} mph")
-
-    def stop(self):
-        print(f"{self.name} is stopping")
-
-    def change_speed(self, new_speed):
-        self.speed = new_speed
-        print(f"{self.name} is now driving at {self.speed} mph")
-
-class HumanDrivingVehicle:
-    def __init__(self, name, speed):
-        self.name = name
-        self.speed = speed
-
-    def drive(self):
-        print(f"{self.name} is driving at {self.speed} mph")
-
-    def change_speed(self, new_speed):
-        self.speed = new_speed
-        print(f"{self.name} is now driving at {self.speed} mph")
-
-    # Set the acceleration of the vehicle
-    def accelerate(self, acceleration):
-        self.speed += acceleration
-        print(f"{self.name} is now driving at {self.speed} mph")
-
-    # Set the deceleration of the vehicle
-    # If the vehicle speed is zero, the deceleration is ignored
-    def decelerate(self, deceleration):
-        if self.speed > 0:
-            self.speed -= deceleration
-            print(f"{self.name} is now driving at {self.speed} mph")
-        else:
-            print(f"{self.name} is already stopped")
-
-    # Set the vehicle to stop
-    def stop(self):
-        self.speed = 0
-        print(f"{self.name} is now stopped")
-    
-
-# TODO: Human-driven vehicle class
-
-# TODO: Highway class
-
-# TODO: Lane abstract class
-
+from Simulation.simulation import Simulation
+import load_config
 
 if __name__ == '__main__':
-    pass
+    load_config.init()
+    config = load_config.get()
+    simulation = Simulation(config['highway']['length'],
+                            config['highway']['self-driving-lane']['count'],
+                            config['highway']['shared-lane']['count'],
+                            config['highway']['self-driving-lane']['speed-limit'],
+                            config['highway']['shared-lane']['speed-limit'],
+                            config['simulation']['time-steps'],
+                            config['highway']['entry-points'],
+                            config['simulation']['chance-gen-self-driven-vehicle'],
+                            config['simulation']['chance-gen-human-driven-vehicle'])
+    simulation.run()
