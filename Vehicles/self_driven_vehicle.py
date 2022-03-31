@@ -15,5 +15,8 @@ class SelfDrivenVehicle(Vehicle):
     def change_lane(self) -> bool:
         return
 
+    def can_drive_forward(self, lane) -> bool:
+        return
+
     def __str__(self) -> str:
         return

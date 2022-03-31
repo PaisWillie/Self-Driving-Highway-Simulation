@@ -27,5 +27,7 @@ if __name__ == '__main__':
                             config['simulation']['chance-gen-self-driven-vehicle'],
                             config['simulation']['chance-gen-human-driven-vehicle'],
                             config['vehicle']['self-driven']['safe-follow'],
-                            config['vehicle']['human-driven']['safe-follow'])
+                            config['vehicle']['human-driven']['safe-follow'],
+                            config['vehicle']['self-driven']['acceleration'],
+                            config['vehicle']['human-driven']['acceleration'])
     simulation.run()

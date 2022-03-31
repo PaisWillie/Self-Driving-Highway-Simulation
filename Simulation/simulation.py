@@ -78,9 +78,9 @@ class Simulation:
 
     def gen_new_drivers(self) -> None:
         # TODO: Generate new drivers based on random chance
-        random_chance = random()
 
         for lane in self.highway.lanes:
+            random_chance = random()
             if type(lane) is SelfDrivingLane and random_chance < self.chance_gen_self_driven_vehicle:
                 # TODO: Only generate vehicle at speed_limit if safe follow distance is statisfied
                 lane.set_vehicle(0,
@@ -88,16 +88,17 @@ class Simulation:
                                                    self.self_driven_vehicle_safe_follow_distance,
                                                    self.self_driven_vehicle_acceleration))
             elif type(lane) is SharedLane:
+                # TODO: Priority of vehicle type depending on chance?
                 if random_chance < self.chance_gen_self_driven_vehicle:
                     lane.set_vehicle(0,
                                      SelfDrivenVehicle(lane.speed_limit,
                                                        self.self_driven_vehicle_safe_follow_distance,
                                                        self.self_driven_vehicle_acceleration))
-                    if random_chance < self.chance_gen_human_driven_vehicle:
-                        lane.set_vehicle(0,
-                                     HumanDrivenVehicle(lane.speed_limit,
-                                                       self.human_driven_vehicle_safe_follow_distance,
-                                                       self.human_driven_vehicle_acceleration))
+                elif random_chance < self.chance_gen_human_driven_vehicle:
+                    lane.set_vehicle(0,
+                                    HumanDrivenVehicle(lane.speed_limit,
+                                                    self.human_driven_vehicle_safe_follow_distance,
+                                                    self.human_driven_vehicle_acceleration))
 
     # def average_time(self):
     #     pass

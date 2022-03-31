@@ -88,28 +88,29 @@ class Highway:
         return num_self_driven / num_human_driven
 
     def print(self) -> None:
-        for i in range(self.num_self_driving_lanes):
-            print("Self-driving lane: \t", end="")
-            for j in range(self.length):
-                vehicle = self.lanes[i].get_vehicle(j)
-                if type(vehicle) is SelfDrivenVehicle:
-                    print("S ", end="")
-                elif type(vehicle) is HumanDrivenVehicle:
-                    print("H ", end="")
-                else:
-                    print("- ", end="")
-            print("")
-        for i in range(self.num_shared_lanes):
-            print("Shared lane: \t\t", end="")
-            for j in range(self.length):
-                vehicle = self.lanes[i].get_vehicle(j)
-                if type(vehicle) is SelfDrivenVehicle:
-                    print("S ", end="")
-                elif type(vehicle) is HumanDrivenVehicle:
-                    print("H ", end="")
-                else:
-                    print("- ", end="")
-            print("")
+        for i in range(len(self.lanes)):
+            if type(self.lanes[i]) is SelfDrivingLane:
+                print("Self-driving lane: \t", end="")
+                for j in range(self.length):
+                    vehicle = self.lanes[i].get_vehicle(j)
+                    if type(vehicle) is SelfDrivenVehicle:
+                        print("S ", end="")
+                    elif type(vehicle) is HumanDrivenVehicle:
+                        print("H ", end="")
+                    else:
+                        print("- ", end="")
+                print("")
+            if type(self.lanes[i]) is SharedLane:
+                print("Shared lane: \t\t", end="")
+                for j in range(self.length):
+                    vehicle = self.lanes[i].get_vehicle(j)
+                    if type(vehicle) is SelfDrivenVehicle:
+                        print("S ", end="")
+                    elif type(vehicle) is HumanDrivenVehicle:
+                        print("H ", end="")
+                    else:
+                        print("- ", end="")
+                print("")
 
         # Print entry-points
         print("\t\t\t", end="")
