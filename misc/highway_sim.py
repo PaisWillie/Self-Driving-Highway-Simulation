@@ -180,6 +180,9 @@ class Simulation:
     def average_time(self):
         return sum(self.data)/len(self.data)
 
+simulation = Simulation(100)
+simulation.run()
+
 
             
 

@@ -11,12 +11,3 @@ class SelfDrivenVehicle(Vehicle):
         super().__init__(speed,
                          safe_follow,
                          acceleration)
-
-    def change_lane(self) -> bool:
-        return
-
-    def can_drive_forward(self, lane) -> bool:
-        return
-
-    def __str__(self) -> str:
-        return

@@ -3,9 +3,10 @@ from typing import List
 
 from Vehicles.vehicle import Vehicle
 
+
 class Lane(ABC):
 
-    road: List[Vehicle] 
+    road: List[Vehicle]
     length: int
     speed_limit: int
 
@@ -32,30 +33,22 @@ class Lane(ABC):
         self.road[index] = vehicle
 
     def move_vehicle(self, vehicle: Vehicle, new_position: int) -> None:
+        if new_position < self.length:
+            self.set_vehicle(new_position, vehicle)
         self.set_vehicle(self.get_vehicle_position(vehicle), None)
-        self.set_vehicle(new_position, vehicle)
 
-    # @abstractmethod
-    # def can_lane_change(self, position: int, new_lane) -> bool:
-    #     pass
-    # TODO: Highway class' method?
-    
-    @abstractmethod
     def can_generate_vehicle(self, safe_follow: int) -> bool:
-        pass
+        for position in range(0, safe_follow):
+            if self.road[position] is not None:
+                return False
+        return True
 
-    @abstractmethod
-    def safe_distance_within(self, lane, index, k):
-        pass
-
-    @abstractmethod
-    def safe_right_lane_change(self, i):
-        pass
-
-    @abstractmethod
-    def safe_left_lane_change(self, i):
-        pass
-
-    @abstractmethod
-    def print(self):
-        pass
+    def lane_change(self, vehicle: Vehicle, new_lane):
+        position = self.get_vehicle_position(vehicle)
+        if new_lane.get_vehicle(position) is None:
+            new_lane.set_vehicle(position, vehicle)
+            self.set_vehicle(position, None)
+            vehicle.speed = new_lane.speed_limit
+        else:
+            # print("decelerating because cannot lane change")
+            vehicle.accelerate('-', self.speed_limit)
