@@ -1,5 +1,5 @@
 simulation:
-  time-steps: 200
+  time-steps: 100
   chance-gen-self-driven-vehicle: 0.1
   chance-gen-human-driven-vehicle: 0.2
 vehicle:
@@ -20,5 +20,5 @@ highway:
     speed-limit: 1
   entry-points:
   - 24
-  - 74
-  length: 100
+  # - 74
+  length: 50
